@@ -16,6 +16,7 @@ LOGS_PATH = os.path.join(LOGS_DIR, 'logs.txt')
 
 RESULTS_DIR = os.path.join(ROOT_DIR, 'results')
 RESULTS_PATH = os.path.join(RESULTS_DIR, 'results.csv')
+ELIGIBLE_RESULTS_PATH = os.path.join(RESULTS_DIR, 'eligible.csv')
 
 class Utils:
     @staticmethod

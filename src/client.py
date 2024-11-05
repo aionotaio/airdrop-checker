@@ -30,7 +30,7 @@ class Client:
             'address': self.address,
         }
 
-        response = requests.get('https://checkdrop.byzantine.fi/api/getData', params=params, headers=headers)
+        response = requests.get('https://checkdrop.byzantine.fi/api/getDatas', params=params, headers=headers)
         if response.status_code == 200:
             res = response.json()
             result_dict = {key: value for key, value in res.items() if key != 'count'}
@@ -43,13 +43,16 @@ class Client:
         claim_links = {
             'eigenlayer': 'https://checkeigen.byzantine.fi/',
             'optimism': 'https://app.optimism.io/airdrops/5',
-            'scroll': 'N/A',
+            'scroll': 'https://claim.scroll.io/',
             'swell': 'N/A',
             'puffer': 'https://claims.puffer.fi/',
             'zora': 'N/A',
             'initia': 'N/A',
             'debridge': 'https://app.debridge.finance/r/482',
-            'layerzero': 'https://www.layerzero.foundation/'
+            'layerzero': 'https://www.layerzero.foundation/',
+            'mode': 'https://app.hedgey.finance/claim/1878e884-40b3-4d87-87ca-5c16a0ce66d0',
+            'p2p': 'https://app.p2p.org/claim',
+            'zircuit': 'https://app.zircuit.com/fairdrop'
         }
         return claim_links.get(project, 'N/A')
     
@@ -63,7 +66,10 @@ class Client:
             'zora': '$ZORA',
             'initia': '$INT',
             'debridge': '$DBR',
-            'layerzero': '$ZRO'
+            'layerzero': '$ZRO',
+            'mode': '$MODE',
+            'p2p': '$ETH',
+            'zircuit': '$ZRC'
         }
     
     def format_tokens(self, tokens: str, ticker: str) -> str:
@@ -72,7 +78,7 @@ class Client:
     def check_eligibility(self, tokens: str) -> bool:
         return tokens != 'N/A' and tokens > 0
     
-    def print_table(self, data: dict):
+    def print_table(self, data: dict) -> list:
         logger.info(f"Data for wallet: {self.address}")
         tickers = self.get_tickers()
 
@@ -81,7 +87,9 @@ class Client:
 
         for project, details in data.items():
             points = details['points'] if details['points'] != '-' and details['points'] != -1 else 'N/A'
-            tokens = details['tokens'] if details['tokens'] != '-' and details['points'] != -1 else 'N/A'
+            if isinstance(points, float):
+                points = f"{points:.10f}"
+            tokens = details['tokens'] if details['tokens'] != '-' and details['tokens'] != -1 else 'N/A'
             ticker = tickers.get(project, 'N/A')
             tokens_with_ticker = self.format_tokens(tokens, ticker)
             eligibility = self.check_eligibility(tokens)
@@ -101,3 +109,11 @@ class Client:
             if output_file.tell() == 0:
                 csv_writer.writerow(['Address', 'Project', 'Points', 'Tokens', 'Eligibility', 'Claim Link'])
             csv_writer.writerows(csv_data)
+
+    def write_eligible_to_csv(self, csv_data: list, csv_path: str):
+        eligible_data = [row for row in csv_data if row[4]]
+        with open(csv_path, 'a', newline='', encoding='utf-8-sig') as output_file:
+            csv_writer = csv.writer(output_file, delimiter=';')
+            if output_file.tell() == 0:
+                csv_writer.writerow(['Address', 'Project', 'Points', 'Tokens', 'Eligibility', 'Claim Link'])
+            csv_writer.writerows(eligible_data)
