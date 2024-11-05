@@ -5,13 +5,16 @@
 - Checking allocation for:
     - EigenLayer S2 airdrop
     - Optimism S5 airdrop
-    - Scroll airdrop (when it will be available)
+    - Scroll airdrop
     - Swell airdrop
     - Puffer airdrop
     - Zora airdrop (when it will be available)
     - Initia airdrop (when it will be available)
     - deBridge airdrop
     - LayerZero S2 airdrop
+    - Mode S2 airdrop
+    - P2P Eigen S2 airdrop
+    - Zircuit Fairdrop
 
 ### Follow: https://t.me/touchingcode
 
@@ -41,3 +44,4 @@
 ## Results
 - `logs/logs.txt` - Logs
 - `results/results.csv` - Results
+- `results/eligible.csv` - Results with only eligible wallets
