@@ -8,18 +8,18 @@ logger.add(sink=LOGS_PATH, format="{time:YYYY-MM-DD at HH:mm:ss} | {level} | {me
 
 def process_wallets(addresses):
     for address in addresses:
-        logger.info(f'Processing wallet: {address}')
+        logger.info(f'Processing wallet: {address}...')
         client = Client(address=address)
         res = client.make_request()
         
         if res is None:
-            logger.error(f'Failed to retrieve data for wallet: {address}')
+            logger.error(f'Failed to retrieve data for wallet: {address}.')
             continue
         
         csv_data = client.print_table(res)
         client.write_to_csv(csv_data, RESULTS_PATH)
         client.write_eligible_to_csv(csv_data, ELIGIBLE_RESULTS_PATH)
-        logger.success(f'Data for wallet {address} processed and written to CSV.')
+        logger.info(f'Data for wallet {address} processed and written to CSV.')
 
 def main():
     logger.info('Start checking...')

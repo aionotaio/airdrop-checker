@@ -15,6 +15,8 @@
     - Mode S2 airdrop
     - P2P Eigen S2 airdrop
     - Zircuit Fairdrop
+    - Zircuit S1 & S2 airdrop
+    - Usual airdrop
 
 ### Follow: https://t.me/touchingcode
 
@@ -43,5 +45,5 @@
 
 ## Results
 - `logs/logs.txt` - Logs
-- `results/results.csv` - Results
-- `results/eligible.csv` - Results with only eligible wallets
+- `results/full_results.csv` - Full results
+- `results/eligible_results.csv` - Results with only eligible wallets
